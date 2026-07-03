@@ -92,6 +92,19 @@ Upcoming:
 
 ---
 
+# 🏆 Milestones
+
+- ✅ Built my first ROS 2 node
+- ✅ Published my first robot velocity command
+- ✅ Controlled a simulated robot using ROS topics
+- ⏳ Build my first subscriber
+- ⏳ Build a complete publisher–subscriber system
+- ⏳ Simulate a mobile robot in Gazebo
+- ⏳ Build my first autonomous navigation project
+- ⏳ Deploy my first robotics AI project
+
+---
+
 # 📂 Repository Structure
 
 ```text
@@ -141,19 +154,6 @@ My goal is to contribute to the development of intelligent robotic systems in ar
 - Autonomous Mobile Robots (AMRs)
 - Humanoid Robotics
 - AI-powered Robotic Manipulation
-
----
-
-# 🏆 Milestones
-
-- ✅ Built my first ROS 2 node
-- ✅ Published my first robot velocity command
-- ✅ Controlled a simulated robot using ROS topics
-- ⏳ Build my first subscriber
-- ⏳ Build a complete publisher–subscriber system
-- ⏳ Simulate a mobile robot in Gazebo
-- ⏳ Build my first autonomous navigation project
-- ⏳ Deploy my first robotics AI project
 
 ---
 
