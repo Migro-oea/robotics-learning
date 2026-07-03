@@ -162,7 +162,7 @@ My goal is to contribute to the development of intelligent robotic systems in ar
 **Obafemi Ayo-Soremi**
 
 - GitHub: https://github.com/Migro-oea
-- LinkedIn: *(Add your LinkedIn profile here)*
+- LinkedIn: https://linkedin.com/in/obafemi-migro
 
 ---
 
