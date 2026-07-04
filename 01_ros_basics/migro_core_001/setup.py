@@ -23,8 +23,9 @@ setup(
         ],
     },
     entry_points={
-        'console_scripts': [
-            'hello_migro = migro_core_001.hello_migro:main',
+    'console_scripts': [
+        'hello_migro = migro_core_001.hello_migro:main',
+        'listener = migro_core_001.listener:main',
         ],
     },
 )
