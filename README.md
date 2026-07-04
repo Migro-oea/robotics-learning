@@ -22,6 +22,14 @@ Secure a **funded international Robotics Software Engineering internship** in **
 
 ---
 
+## 🚀 Latest Achievement
+
+- ✅ Built my first ROS 2 Subscriber
+- ✅ Built my first Publisher–Subscriber communication system
+- ✅ Learned event-driven programming using ROS 2 callbacks
+
+---
+
 # 🚀 What You'll Find Here
 
 This repository contains:
@@ -39,7 +47,7 @@ Rather than only showing finished projects, this repository also captures **how 
 
 # 🛠 Tech Stack
 
-Currently learning and building with:
+### Currently Learning
 
 - Python
 - Linux (Ubuntu)
@@ -47,7 +55,7 @@ Currently learning and building with:
 - ROS 2 (Jazzy)
 - Object-Oriented Programming
 
-Upcoming:
+### Upcoming
 
 - Gazebo
 - OpenCV
@@ -71,11 +79,9 @@ Upcoming:
 - ✅ First ROS Package
 - ✅ First ROS Node
 - ✅ ROS Publishers
+- ✅ ROS Subscribers
 - ✅ Robot Motion using Twist Messages
-
-### Currently Learning
-
-- 🔄 Subscribers
+- ✅ Publisher–Subscriber Communication
 
 ### Coming Next
 
@@ -97,8 +103,8 @@ Upcoming:
 - ✅ Built my first ROS 2 node
 - ✅ Published my first robot velocity command
 - ✅ Controlled a simulated robot using ROS topics
-- ⏳ Build my first subscriber
-- ⏳ Build a complete publisher–subscriber system
+- ✅ Built my first ROS 2 subscriber
+- ✅ Built my first publisher–subscriber system
 - ⏳ Simulate a mobile robot in Gazebo
 - ⏳ Build my first autonomous navigation project
 - ⏳ Deploy my first robotics AI project
@@ -112,15 +118,17 @@ robotics-learning/
 
 ├── 01_ros_basics/
 │
-├── 02_publishers_subscribers/
+├── 02_services/
 │
-├── 03_services/
+├── 03_actions/
 │
-├── 04_actions/
+├── 04_tf2/
 │
-├── 05_tf2/
+├── 05_gazebo/
 │
 ├── 06_navigation/
+│
+├── 07_computer_vision/
 │
 └── README.md
 ```
