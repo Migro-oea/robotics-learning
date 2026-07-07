@@ -47,27 +47,41 @@ Rather than only showing finished projects, this repository also captures **how 
 
 # 🛠 Tech Stack
 
-### Currently Learning
+# 🛣️ Robotics Learning Roadmap
 
-- Python
-- Linux (Ubuntu)
-- Git & GitHub
-- ROS 2 (Jazzy)
-- Object-Oriented Programming
+This repository documents my journey toward becoming a **Robotics Software Engineer**.
 
-### Upcoming
+## ✅ Completed
 
-- Gazebo
-- OpenCV
-- Computer Vision
-- SLAM
-- Navigation2
-- MoveIt 2
-- Machine Learning for Robotics
-- Reinforcement Learning
-- Isaac Sim
+- [x] Linux Environment Setup
+- [x] ROS 2 Workspace
+- [x] ROS Nodes
+- [x] ROS Packages
+- [x] Topics
+- [x] Publishers
+- [x] Subscribers
+- [x] Services
+- [x] Service Clients
+- [x] Service Servers
 
----
+## 🚧 Currently Learning
+
+- [ ] ROS 2 Actions
+
+## 🔜 Coming Next
+
+- [ ] Launch Files
+- [ ] Parameters
+- [ ] TF2
+- [ ] Gazebo
+- [ ] RViz
+- [ ] Navigation2
+- [ ] MoveIt2
+- [ ] Computer Vision
+- [ ] Machine Learning for Robotics
+- [ ] Robotics Portfolio Projects
+
+> Every completed milestone represents real code, documented learning, and practical implementation.
 
 # 📈 Learning Progress
 
@@ -82,10 +96,10 @@ Rather than only showing finished projects, this repository also captures **how 
 - ✅ ROS Subscribers
 - ✅ Robot Motion using Twist Messages
 - ✅ Publisher–Subscriber Communication
+- ✅ Services
 
 ### Coming Next
 
-- ⏳ Services
 - ⏳ Actions
 - ⏳ Parameters
 - ⏳ Launch Files
@@ -111,25 +125,14 @@ Rather than only showing finished projects, this repository also captures **how 
 
 ---
 
-# 📂 Repository Structure
+## 📂 Repository Structure
 
 ```text
 robotics-learning/
-
 ├── 01_ros_basics/
-│
-├── 02_services/
-│
-├── 03_actions/
-│
-├── 04_tf2/
-│
-├── 05_gazebo/
-│
-├── 06_navigation/
-│
-├── 07_computer_vision/
-│
+├── 02_ros_services/
+├── 03_ros_actions/
+├── engineering_journal/
 └── README.md
 ```
 
