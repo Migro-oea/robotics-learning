@@ -1,0 +1,6 @@
+int32 target_number
+---
+bool success
+string message
+---
+int32 current_number
