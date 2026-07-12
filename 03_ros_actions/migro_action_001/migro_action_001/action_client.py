@@ -21,7 +21,9 @@ class CountUntilActionClient(Node):
 
         goal = CountUntil.Goal()
 
-        goal.target_number = 10
+        target = int(input("Count Until: "))
+
+        goal.target_number = target
 
         self._client.wait_for_server()
 
