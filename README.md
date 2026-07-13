@@ -98,7 +98,6 @@ My goal is to think and work like an engineer—not simply complete tutorials.
 * Action Server
 * Action Client
 * ROS 2 Actions
-* Parameters
 
 ---
 
@@ -109,7 +108,7 @@ My goal is to think and work like an engineer—not simply complete tutorials.
 
 ## 🔜 Coming Next
 
-* Launch Files
+* Parameters
 * TF2
 * RViz2
 * Gazebo
@@ -137,7 +136,7 @@ My goal is to think and work like an engineer—not simply complete tutorials.
 | Subscribers                   | ✅      |
 | Services                      | ✅      |
 | Actions                       | ✅      |
-| Parameters                    | ✅      |
+| Parameters                    | ⏳      |
 | Launch Files                  | ⏳      |
 | TF2                           | ⏳      |
 | Gazebo                        | ⏳      |
