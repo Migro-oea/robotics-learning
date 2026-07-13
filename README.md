@@ -97,20 +97,18 @@ My goal is to think and work like an engineer—not simply complete tutorials.
 * Custom ROS 2 Action Interfaces
 * Action Server
 * Action Client
+* ROS 2 Actions
+* Parameters
 
 ---
 
 ## 🚧 Currently Learning
 
-* Advanced ROS 2 Actions
-* Robust Action Design
-* ROS 2 Best Practices
-
+* ROS 2 Launch Files 
 ---
 
 ## 🔜 Coming Next
 
-* Parameters
 * Launch Files
 * TF2
 * RViz2
@@ -139,7 +137,7 @@ My goal is to think and work like an engineer—not simply complete tutorials.
 | Subscribers                   | ✅      |
 | Services                      | ✅      |
 | Actions                       | ✅      |
-| Parameters                    | ⏳      |
+| Parameters                    | ✅      |
 | Launch Files                  | ⏳      |
 | TF2                           | ⏳      |
 | Gazebo                        | ⏳      |

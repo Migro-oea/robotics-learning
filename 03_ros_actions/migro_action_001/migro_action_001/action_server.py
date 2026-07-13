@@ -1,8 +1,7 @@
 import time
 
 import rclpy
-from rclpy.action import ActionServer
-from rclpy.action import GoalResponse
+from rclpy.action import ActionServer, GoalResponse, CancelResponse
 from rclpy.node import Node
 
 from migro_interfaces.action import CountUntil
@@ -17,8 +16,9 @@ class CountUntilActionServer(Node):
             self,
             CountUntil,
             "count_until",
-            self.execute_callback,
-            goal_callback=self.goal_callback
+            execute_callback=self.execute_callback,
+            goal_callback=self.goal_callback,
+            cancel_callback=self.cancel_callback,
         )
 
         self.get_logger().info("CountUntil Action Server started.")
@@ -39,6 +39,12 @@ class CountUntilActionServer(Node):
 
         return GoalResponse.ACCEPT
 
+    def cancel_callback(self, goal_handle):
+
+        self.get_logger().info("Cancellation request received.")
+
+        return CancelResponse.ACCEPT
+
     def execute_callback(self, goal_handle):
 
         self.get_logger().info(
@@ -49,20 +55,29 @@ class CountUntilActionServer(Node):
 
         for number in range(goal_handle.request.target_number + 1):
 
-            feedback.current_number = number
+            # Check if the client requested cancellation
+            if goal_handle.is_cancel_requested:
 
+                goal_handle.canceled()
+
+                result = CountUntil.Result()
+                result.success = False
+                result.message = "Goal was cancelled."
+
+                self.get_logger().info("Goal cancelled successfully.")
+
+                return result
+
+            feedback.current_number = number
             goal_handle.publish_feedback(feedback)
 
-            self.get_logger().info(
-                f"Current number: {number}"
-            )
+            self.get_logger().info(f"Current number: {number}")
 
             time.sleep(1)
 
         goal_handle.succeed()
 
         result = CountUntil.Result()
-
         result.success = True
         result.message = (
             f"Successfully counted to {goal_handle.request.target_number}"
