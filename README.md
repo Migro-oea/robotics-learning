@@ -108,7 +108,7 @@ My goal is to think and work like an engineer—not simply complete tutorials.
 
 ## 🔜 Coming Next
 
-* Parameters
+* Parameters(Combining understanding of parameters with launch files)
 * TF2
 * RViz2
 * Gazebo
