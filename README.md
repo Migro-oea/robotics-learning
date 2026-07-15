@@ -49,7 +49,7 @@ Instead, it documents the entire engineering process, including:
 * Reflecting on mistakes
 * Improving existing implementations
 
-My goal is to think and work like an engineer—not simply complete tutorials.
+My goal is to think and work like an engineer, not simply complete tutorials.
 
 ---
 
@@ -212,7 +212,7 @@ Ultimately, I aim to design software that enables robots to interact intelligent
 
 # 📬 Connect With Me
 
-**Obafemi Ayo-Soremi**
+**Obafemi E. Ayo-Soremi**
 
 * GitHub: https://github.com/Migro-oea
 * LinkedIn: https://linkedin.com/in/obafemiayosoremi
