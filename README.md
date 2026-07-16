@@ -136,8 +136,8 @@ My goal is to think and work like an engineer, not simply complete tutorials.
 | Subscribers                   | ✅      |
 | Services                      | ✅      |
 | Actions                       | ✅      |
-| Parameters                    | ⏳      |
-| Launch Files                  | ⏳      |
+| Parameters                    | ✅      |
+| Launch Files                  | ✅      |
 | TF2                           | ⏳      |
 | Gazebo                        | ⏳      |
 | RViz2                         | ⏳      |
