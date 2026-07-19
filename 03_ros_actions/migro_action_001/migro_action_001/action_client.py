@@ -1,7 +1,5 @@
-import threading
-import time
-
 import rclpy
+
 from rclpy.action import ActionClient
 from rclpy.node import Node
 
@@ -19,15 +17,21 @@ class CountUntilActionClient(Node):
             "count_until"
         )
 
-        self.goal_handle = None
-
     def send_goal(self):
 
         goal = CountUntil.Goal()
 
-        target = int(input("Count Until: "))
+        # Declare parameter with a default value
+        self.declare_parameter("target_number", 5)
+
+        # Read parameter
+        target = self.get_parameter("target_number").value
 
         goal.target_number = target
+
+        self.get_logger().info(
+            f"Target Number: {target}"
+        )
 
         self._client.wait_for_server()
 
@@ -44,52 +48,19 @@ class CountUntilActionClient(Node):
 
     def goal_response_callback(self, future):
 
-        self.goal_handle = future.result()
+        goal_handle = future.result()
 
-        if not self.goal_handle.accepted:
+        if not goal_handle.accepted:
             self.get_logger().info("Goal Rejected")
             return
 
         self.get_logger().info("Goal Accepted")
 
-        threading.Thread(
-            target=self.cancel_after_delay,
-            daemon=True
-        ).start()
-
-        self._result_future = self.goal_handle.get_result_async()
+        self._result_future = goal_handle.get_result_async()
 
         self._result_future.add_done_callback(
             self.result_callback
         )
-
-    def cancel_after_delay(self):
-
-        time.sleep(3)
-
-        self.get_logger().info("Cancelling Goal...")
-
-        cancel_future = self.goal_handle.cancel_goal_async()
-
-        cancel_future.add_done_callback(
-            self.cancel_done_callback
-        )
-
-    def cancel_done_callback(self, future):
-
-        cancel_response = future.result()
-
-        if len(cancel_response.goals_canceling) > 0:
-
-            self.get_logger().info(
-                "Goal successfully cancelled."
-            )
-
-        else:
-
-            self.get_logger().info(
-                "Goal failed to cancel."
-            )
 
     def feedback_callback(self, feedback_msg):
 
