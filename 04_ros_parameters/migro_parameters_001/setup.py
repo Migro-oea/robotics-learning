@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'parameter_node = migro_parameters_001.parameter_node:main',
+            'dynamic_parameter_node = migro_parameters_001.dynamic_parameter_node:main',
         ],
     },
 )
