@@ -30,6 +30,7 @@ setup(
     entry_points={
         'console_scripts': [
             'tf_broadcaster = migro_tf2_001.tf_broadcaster:main',
+            'tf_listener = migro_tf2_001.tf_listener:main',
         ],
     },
 )
