@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<robot name="migro">
+
+    <link name="base_link"/>
+
+    <link name="camera_link"/>
+
+    <joint name="camera_joint" type="fixed">
+
+        <parent link="base_link"/>
+
+        <child link="camera_link"/>
+
+        <origin xyz="0 0 0.5" rpy="0 0 0"/>
+
+    </joint>
+
+</robot>
