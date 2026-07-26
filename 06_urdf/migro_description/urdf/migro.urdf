@@ -2,16 +2,56 @@
 
 <robot name="migro">
 
-    <link name="base_link"/>
+    <!-- ============================= -->
+    <!-- Base Link (Robot Chassis)     -->
+    <!-- ============================= -->
+    <link name="base_link">
 
-    <link name="camera_link"/>
+        <visual>
 
+            <geometry>
+                <box size="0.5 0.4 0.2"/>
+            </geometry>
+
+            <material name="blue">
+                <color rgba="0 0 1 1"/>
+            </material>
+
+        </visual>
+
+    </link>
+
+
+    <!-- ============================= -->
+    <!-- Camera Link                   -->
+    <!-- ============================= -->
+    <link name="camera_link">
+
+        <visual>
+
+            <geometry>
+                <box size="0.08 0.08 0.05"/>
+            </geometry>
+
+            <material name="black">
+                <color rgba="0.1 0.1 0.1 1"/>
+            </material>
+
+        </visual>
+
+    </link>
+
+
+    <!-- ============================= -->
+    <!-- Camera Fixed Joint            -->
+    <!-- ============================= -->
     <joint name="camera_joint" type="fixed">
 
         <parent link="base_link"/>
 
         <child link="camera_link"/>
 
+        <!-- Camera is 0.5 m above the base -->
         <origin xyz="0 0 0.5" rpy="0 0 0"/>
 
     </joint>
