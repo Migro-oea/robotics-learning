@@ -2,6 +2,8 @@
 
 <robot name="migro">
 
+  <!-- ================= Materials ================= -->
+
   <material name="blue">
     <color rgba="0 0 1 1"/>
   </material>
@@ -10,30 +12,168 @@
     <color rgba="0.1 0.1 0.1 1"/>
   </material>
 
+  <material name="grey">
+    <color rgba="0.5 0.5 0.5 1"/>
+  </material>
+
+  <!-- ================= Chassis ================= -->
+
   <link name="base_link">
+
     <visual>
+
       <origin xyz="0 0 0.1"/>
+
       <geometry>
         <box size="0.5 0.4 0.2"/>
       </geometry>
+
       <material name="blue"/>
+
     </visual>
+
   </link>
 
+  <!-- ================= Camera ================= -->
+
   <link name="camera_link">
+
     <visual>
+
       <origin xyz="0 0 0.025"/>
+
       <geometry>
         <box size="0.08 0.08 0.05"/>
       </geometry>
+
       <material name="black"/>
+
     </visual>
+
   </link>
 
   <joint name="camera_joint" type="fixed">
+
     <parent link="base_link"/>
+
     <child link="camera_link"/>
+
     <origin xyz="0 0 0.15" rpy="0 0 0"/>
+
+  </joint>
+
+  <!-- ================= Left Front Wheel ================= -->
+
+  <link name="left_front_wheel">
+
+    <visual>
+
+      <origin xyz="0 0 0"/>
+
+      <geometry>
+
+        <cylinder radius="0.05" length="0.03"/>
+
+      </geometry>
+
+      <material name="grey"/>
+
+    </visual>
+
+  </link>
+
+  <joint name="left_front_wheel_joint" type="fixed">
+
+      <parent link="base_link"/>
+
+      <child link="left_front_wheel"/>
+
+      <origin xyz="0.18 0.20 0.05" rpy="1.5708 0 0"/>
+
+  </joint>
+
+  <!-- ================= Right Front Wheel ================= -->
+
+  <link name="right_front_wheel">
+
+    <visual>
+
+      <geometry>
+
+        <cylinder radius="0.05" length="0.03"/>
+
+      </geometry>
+
+      <material name="grey"/>
+
+    </visual>
+
+  </link>
+
+  <joint name="right_front_wheel_joint" type="fixed">
+
+      <parent link="base_link"/>
+
+      <child link="right_front_wheel"/>
+
+      <origin xyz="0.18 -0.20 0.05" rpy="1.5708 0 0"/>
+
+  </joint>
+
+  <!-- ================= Left Rear Wheel ================= -->
+
+  <link name="left_rear_wheel">
+
+    <visual>
+
+      <geometry>
+
+        <cylinder radius="0.05" length="0.03"/>
+
+      </geometry>
+
+      <material name="grey"/>
+
+    </visual>
+
+  </link>
+
+  <joint name="left_rear_wheel_joint" type="fixed">
+
+      <parent link="base_link"/>
+
+      <child link="left_rear_wheel"/>
+
+      <origin xyz="-0.18 0.20 0.05" rpy="1.5708 0 0"/>
+
+  </joint>
+
+  <!-- ================= Right Rear Wheel ================= -->
+
+  <link name="right_rear_wheel">
+
+    <visual>
+
+      <geometry>
+
+        <cylinder radius="0.05" length="0.03"/>
+
+      </geometry>
+
+      <material name="grey"/>
+
+    </visual>
+
+  </link>
+
+  <joint name="right_rear_wheel_joint" type="fixed">
+
+      <parent link="base_link"/>
+
+      <child link="right_rear_wheel"/>
+
+      <origin xyz="-0.18 -0.20 0.05" rpy="1.5708 0 0"/>
+
   </joint>
 
 </robot>
