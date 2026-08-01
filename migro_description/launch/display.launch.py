@@ -3,22 +3,36 @@ from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
 import os
+import xacro
 
 
 def generate_launch_description():
 
     package_path = get_package_share_directory("migro_description")
 
-    urdf_file = os.path.join(package_path, "urdf", "migro.urdf")
-    rviz_config = os.path.join(package_path, "rviz", "migro.rviz")
+    xacro_file = os.path.join(
+        package_path,
+        "urdf",
+        "migro.urdf.xacro"
+    )
 
-    with open(urdf_file, "r") as file:
-        robot_description = file.read()
+    rviz_config = os.path.join(
+        package_path,
+        "rviz",
+        "migro.rviz"
+    )
+
+    # Process the Xacro file
+    robot_description_config = xacro.process_file(xacro_file)
+
+    robot_description = {
+        "robot_description": robot_description_config.toxml()
+    }
 
     robot_state_publisher = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        parameters=[{"robot_description": robot_description}],
+        parameters=[robot_description],
         output="screen"
     )
 
@@ -36,7 +50,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        robot_state_publisher,
         joint_state_publisher,
+        robot_state_publisher,
         rviz
     ])
