@@ -1,10 +1,46 @@
 <?xml version="1.0"?>
 
-<robot 
-    xmlns:xacro="http://www.ros.org/wiki/xacro"
-    name="migro">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="migro">
 
-  <!-- ================= Materials ================= -->
+  <!-- ========================================================= -->
+  <!-- Robot Properties -->
+  <!-- ========================================================= -->
+
+  <!-- Chassis -->
+  <xacro:property name="chassis_length" value="0.5"/>
+  <xacro:property name="chassis_width" value="0.4"/>
+  <xacro:property name="chassis_height" value="0.2"/>
+
+  <!-- Wheels -->
+  <xacro:property name="wheel_radius" value="0.10"/>
+  <xacro:property name="wheel_width" value="0.06"/>
+
+  <xacro:property name="wheel_x" value="0.18"/>
+  <xacro:property name="wheel_y" value="0.24"/>
+  <xacro:property name="wheel_z" value="${wheel_radius}"/>
+
+  <!-- Ground Clearance -->
+  <xacro:property name="ground_clearance" value="0.05"/>
+
+  <!-- Height of chassis above the world -->
+  <xacro:property
+      name="body_z"
+      value="${wheel_radius + ground_clearance + chassis_height/2}"/>
+
+  <!-- Camera -->
+  <xacro:property name="camera_length" value="0.08"/>
+  <xacro:property name="camera_width" value="0.08"/>
+  <xacro:property name="camera_height" value="0.05"/>
+
+  <xacro:property name="camera_x" value="0.0"/>
+  <xacro:property name="camera_y" value="0.0"/>
+  <xacro:property
+      name="camera_z"
+      value="${body_z + chassis_height/2 - 0.05}"/>
+
+  <!-- ========================================================= -->
+  <!-- Materials -->
+  <!-- ========================================================= -->
 
   <material name="blue">
     <color rgba="0 0 1 1"/>
@@ -18,39 +54,63 @@
     <color rgba="0.5 0.5 0.5 1"/>
   </material>
 
-  <!-- ================= Chassis ================= -->
+  <!-- ========================================================= -->
+  <!-- Chassis -->
+  <!-- ========================================================= -->
 
   <link name="base_link">
 
     <visual>
 
-      <origin xyz="0 0 0.1"/>
+      <origin xyz="0 0 ${body_z}"/>
 
       <geometry>
-        <box size="0.5 0.4 0.2"/>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
       </geometry>
 
       <material name="blue"/>
 
     </visual>
 
+    <collision>
+
+      <origin xyz="0 0 ${body_z}"/>
+
+      <geometry>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+      </geometry>
+
+    </collision>
+
   </link>
 
-  <!-- ================= Camera ================= -->
+  <!-- ========================================================= -->
+  <!-- Camera -->
+  <!-- ========================================================= -->
 
   <link name="camera_link">
 
     <visual>
 
-      <origin xyz="0 0 0.025"/>
+      <origin xyz="0 0 ${camera_height/2}"/>
 
       <geometry>
-        <box size="0.08 0.08 0.05"/>
+        <box size="${camera_length} ${camera_width} ${camera_height}"/>
       </geometry>
 
       <material name="black"/>
 
     </visual>
+
+    <collision>
+
+      <origin xyz="0 0 ${camera_height/2}"/>
+
+      <geometry>
+        <box size="${camera_length} ${camera_width} ${camera_height}"/>
+      </geometry>
+
+    </collision>
 
   </link>
 
@@ -60,122 +120,88 @@
 
     <child link="camera_link"/>
 
-    <origin xyz="0 0 0.15" rpy="0 0 0"/>
+    <origin xyz="${camera_x} ${camera_y} ${camera_z}" rpy="0 0 0"/>
 
   </joint>
 
-  <!-- ================= Left Front Wheel ================= -->
+  <!-- ========================================================= -->
+  <!-- Wheel Macro -->
+  <!-- ========================================================= -->
 
-  <link name="left_front_wheel">
+  <xacro:macro name="wheel" params="name x y z">
 
-    <visual>
+    <link name="${name}">
 
-      <origin xyz="0 0 0"/>
+      <visual>
 
-      <geometry>
+        <origin xyz="0 0 0"/>
 
-        <cylinder radius="0.05" length="0.03"/>
+        <geometry>
+          <cylinder
+              radius="${wheel_radius}"
+              length="${wheel_width}"/>
+        </geometry>
 
-      </geometry>
+        <material name="grey"/>
 
-      <material name="grey"/>
+      </visual>
 
-    </visual>
+      <collision>
 
-  </link>
+        <origin xyz="0 0 0"/>
 
-  <joint name="left_front_wheel_joint" type="fixed">
+        <geometry>
+          <cylinder
+              radius="${wheel_radius}"
+              length="${wheel_width}"/>
+        </geometry>
+
+      </collision>
+
+    </link>
+
+    <joint
+        name="${name}_joint"
+        type="fixed">
 
       <parent link="base_link"/>
 
-      <child link="left_front_wheel"/>
+      <child link="${name}"/>
 
-      <origin xyz="0.18 0.20 0.05" rpy="1.5708 0 0"/>
+      <origin
+          xyz="${x} ${y} ${z}"
+          rpy="1.5708 0 0"/>
 
-  </joint>
+    </joint>
 
-  <!-- ================= Right Front Wheel ================= -->
+  </xacro:macro>
 
-  <link name="right_front_wheel">
+  <!-- ========================================================= -->
+  <!-- Wheels -->
+  <!-- ========================================================= -->
 
-    <visual>
+  <xacro:wheel
+      name="left_front_wheel"
+      x="${wheel_x}"
+      y="${wheel_y}"
+      z="${wheel_z}"/>
 
-      <geometry>
+  <xacro:wheel
+      name="right_front_wheel"
+      x="${wheel_x}"
+      y="${-wheel_y}"
+      z="${wheel_z}"/>
 
-        <cylinder radius="0.05" length="0.03"/>
+  <xacro:wheel
+      name="left_rear_wheel"
+      x="${-wheel_x}"
+      y="${wheel_y}"
+      z="${wheel_z}"/>
 
-      </geometry>
-
-      <material name="grey"/>
-
-    </visual>
-
-  </link>
-
-  <joint name="right_front_wheel_joint" type="fixed">
-
-      <parent link="base_link"/>
-
-      <child link="right_front_wheel"/>
-
-      <origin xyz="0.18 -0.20 0.05" rpy="1.5708 0 0"/>
-
-  </joint>
-
-  <!-- ================= Left Rear Wheel ================= -->
-
-  <link name="left_rear_wheel">
-
-    <visual>
-
-      <geometry>
-
-        <cylinder radius="0.05" length="0.03"/>
-
-      </geometry>
-
-      <material name="grey"/>
-
-    </visual>
-
-  </link>
-
-  <joint name="left_rear_wheel_joint" type="fixed">
-
-      <parent link="base_link"/>
-
-      <child link="left_rear_wheel"/>
-
-      <origin xyz="-0.18 0.20 0.05" rpy="1.5708 0 0"/>
-
-  </joint>
-
-  <!-- ================= Right Rear Wheel ================= -->
-
-  <link name="right_rear_wheel">
-
-    <visual>
-
-      <geometry>
-
-        <cylinder radius="0.05" length="0.03"/>
-
-      </geometry>
-
-      <material name="grey"/>
-
-    </visual>
-
-  </link>
-
-  <joint name="right_rear_wheel_joint" type="fixed">
-
-      <parent link="base_link"/>
-
-      <child link="right_rear_wheel"/>
-
-      <origin xyz="-0.18 -0.20 0.05" rpy="1.5708 0 0"/>
-
-  </joint>
+  <xacro:wheel
+      name="right_rear_wheel"
+      x="${-wheel_x}"
+      y="${-wheel_y}"
+      z="${wheel_z}"/>
 
 </robot>
