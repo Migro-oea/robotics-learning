@@ -1,222 +1,188 @@
-# 🤖 Robotics Learning Journey
+🤖 Robotics Learning Journey
+From Computer Science Undergraduate to Robotics Software Engineer
 
-> **From Computer Science Undergraduate to Robotics Software Engineer**
+Welcome to my robotics learning repository.
 
-Welcome to my robotics engineering portfolio.
+This repository documents my journey from knowing little about robotics software to building robots using modern robotics frameworks such as ROS 2, Gazebo, RViz, URDF/Xacro, and eventually Computer Vision, Navigation, and Machine Learning.
 
-This repository documents my journey from learning the fundamentals of robotics software to building intelligent robotic systems using modern robotics frameworks such as **ROS 2**.
+Rather than uploading only finished projects, I document every stage of the learning process—including mistakes, debugging sessions, architectural improvements, and engineering decisions.
 
-Unlike a collection of tutorial code, this repository serves as a **public engineering journal** where I document what I build, what I learn, the problems I encounter, and how I solve them.
+Every commit represents measurable progress toward becoming a Robotics Software Engineer.
 
-Every commit represents measurable progress toward becoming a world-class Robotics Software Engineer.
+👋 About Me
 
----
+Hi!
 
-# 👋 About Me
-
-Hi! I'm **Obafemi Ayo-Soremi**, a Computer Science undergraduate at **Bells University of Technology, Nigeria**.
+I'm Obafemi Ayo-Soremi, a Computer Science undergraduate at Bells University of Technology, Nigeria.
 
 I'm passionate about:
 
-* 🤖 Robotics
-* 🧠 Artificial Intelligence
-* 🚗 Autonomous Systems
-* 👁️ Computer Vision
-* 🦾 Robot Software Engineering
+🤖 Robotics
+🧠 Artificial Intelligence
+🚗 Autonomous Systems
+👁️ Computer Vision
+🦾 Robotics Software Engineering
 
-My long-term goal is to become a Robotics Software Engineer building intelligent robots capable of solving real-world problems in industries such as manufacturing, logistics, healthcare, and service robotics.
+My goal is to build intelligent robotic systems capable of solving real-world problems.
 
----
+🎯 Purpose of This Repository
 
-# 🎯 Current Mission
+This repository serves as my public robotics engineering notebook.
 
-I'm building the skills required to secure a **funded international Robotics Software Engineering internship in 2027** while developing a strong portfolio of robotics projects and engineering documentation.
+It exists to document:
 
-This repository is one of the primary ways I measure and showcase that progress.
+what I'm learning,
+what I'm building,
+the problems I encounter,
+how I solve them,
+and how my engineering skills evolve over time.
 
----
+Instead of hiding mistakes, I document them because debugging is part of becoming an engineer.
 
-# 🚀 Repository Philosophy
+🛠 Current Technology Stack
+Programming
+Python
+C++ (Learning)
+Robotics
+ROS 2 Jazzy
+URDF
+Xacro
+RViz
+Gazebo Sim
+TF2 (Learning)
+Development
+Ubuntu Linux
+Git
+GitHub
+VS Code
+🛣️ Robotics Learning Roadmap
+✅ Completed
+Linux
+Ubuntu Development Environment
+Linux Terminal
+Git
+Git Workflow
+GitHub Workflow
+ROS 2 Fundamentals
+ROS Workspace
+ROS Packages
+Nodes
+Topics
+Publishers
+Subscribers
+Services
+Actions
+Parameters
+Launch Files
+Robot Description
+URDF
+Xacro
+Modular Robot Architecture
+Robot State Publisher
+Collision Geometry
+Inertial Properties
+Visualization
+RViz
+Simulation
+Gazebo Installation & Configuration
+🔄 Currently Learning
+Gazebo Simulation
+Robot Spawning
+🔜 Next
+Differential Drive
+ros2_control
+TF2
+Camera Integration
+LiDAR
+Computer Vision
+Navigation2
+MoveIt2
+Machine Learning for Robotics
+📈 Learning Progress
+Module	Status
+Linux	✅
+Git	✅
+ROS 2 Fundamentals	✅
+Parameters	✅
+Launch Files	✅
+URDF	✅
+Xacro	✅
+RViz	✅
+Robot State Publisher	✅
+Gazebo Environment	✅
+Robot Spawning	🔄
+Differential Drive	⏳
+Camera	⏳
+LiDAR	⏳
+Navigation2	⏳
+MoveIt2	⏳
+Computer Vision	⏳
+Machine Learning	⏳
+🏆 Milestones
+✅ Built my first ROS 2 node
+✅ Built Publisher–Subscriber communication
+✅ Built ROS Services
+✅ Built ROS Actions
+✅ Designed custom Action interfaces
+✅ Built my first robot using URDF
+✅ Refactored the robot into a modular Xacro architecture
+✅ Added collision geometry
+✅ Added inertial properties
+✅ Visualized the robot in RViz
+✅ Configured Gazebo Simulation
 
-This repository is not intended to showcase only polished projects.
+Upcoming milestones:
 
-Instead, it documents the entire engineering process, including:
-
-* Designing solutions
-* Writing code
-* Debugging failures
-* Learning new concepts
-* Reflecting on mistakes
-* Improving existing implementations
-
-My goal is to think and work like an engineer, not simply complete tutorials.
-
----
-
-# 🛠 Technologies
-
-### Programming Languages
-
-* Python
-* C++ (Learning)
-
-### Robotics
-
-* ROS 2 Jazzy
-* Ubuntu Linux
-* Gazebo *(Coming Soon)*
-* RViz *(Coming Soon)*
-
-### Tools
-
-* Git
-* GitHub
-* VS Code
-* Linux Terminal
-
----
-
-# 🛣️ Robotics Learning Roadmap
-
-## ✅ Completed
-
-* Linux Fundamentals
-* Ubuntu Development Environment
-* Git & GitHub Workflow
-* ROS 2 Workspace
-* ROS Packages
-* ROS Nodes
-* Topics
-* Publishers
-* Subscribers
-* Publisher–Subscriber Communication
-* Services
-* Service Clients
-* Service Servers
-* Actions
-* Custom ROS 2 Action Interfaces
-* Action Server
-* Action Client
-* ROS 2 Actions
-
----
-
-## 🚧 Currently Learning
-
-* ROS 2 Launch Files 
----
-
-## 🔜 Coming Next
-
-* Parameters(Combining understanding of parameters with launch files)
-* TF2
-* RViz2
-* Gazebo
-* URDF
-* Robot State Publisher
-* Navigation2
-* MoveIt2
-* Computer Vision
-* Machine Learning for Robotics
-* Robotics Portfolio Projects
-
----
-
-# 📈 Learning Progress
-
-| Module                        | Status |
-| ----------------------------- | ------ |
-| Linux Fundamentals            | ✅      |
-| Git & GitHub                  | ✅      |
-| ROS 2 Workspace               | ✅      |
-| ROS Packages                  | ✅      |
-| ROS Nodes                     | ✅      |
-| Topics                        | ✅      |
-| Publishers                    | ✅      |
-| Subscribers                   | ✅      |
-| Services                      | ✅      |
-| Actions                       | ✅      |
-| Parameters                    | ✅      |
-| Launch Files                  | ✅      |
-| TF2                           | ⏳      |
-| Gazebo                        | ⏳      |
-| RViz2                         | ⏳      |
-| Navigation2                   | ⏳      |
-| MoveIt2                       | ⏳      |
-| Computer Vision               | ⏳      |
-| Machine Learning for Robotics | ⏳      |
-
----
-
-# 🏆 Milestones
-
-* ✅ Built my first ROS 2 node
-* ✅ Published robot velocity commands using Twist messages
-* ✅ Built a complete Publisher–Subscriber communication system
-* ✅ Built a complete ROS 2 Service architecture
-* ✅ Designed a custom ROS 2 Action interface
-* ✅ Built a complete Action Server and Action Client
-* ✅ Successfully debugged Action interface mismatches
-* ⏳ Simulate a robot inside Gazebo
-* ⏳ Build an autonomous navigation robot
-* ⏳ Build an AI-powered robotics project
-
----
-
-# 📂 Repository Structure
-
-```text
+⏳ Spawn my robot into Gazebo
+⏳ Drive the robot
+⏳ Add a camera
+⏳ Add LiDAR
+⏳ Build an autonomous mobile robot
+⏳ Apply Machine Learning to Robotics
+📂 Repository Structure
 robotics-learning/
-├── 01_ros_basics/
-├── 02_ros_services/
-├── 03_ros_actions/
+│
+├── 01_ros2_basics/
+├── 02_simulation/
+├── 03_perception/
+├── 04_navigation/
+├── 05_machine_learning/
 ├── engineering_journal/
-├── assets/
 └── README.md
-```
-
----
-
-# 📖 Engineering Journal
+📖 Engineering Journal
 
 One feature that makes this repository unique is the Engineering Journal.
 
-Every learning session is documented with:
+Every learning session includes:
 
-* Objectives
-* Concepts learned
-* Code written
-* Challenges encountered
-* Debugging process
-* Lessons learned
-* Personal reflections
+Objectives
+Concepts learned
+Code written
+Challenges encountered
+Debugging process
+Lessons learned
+Personal reflections
 
-The journal allows me to reinforce my understanding while demonstrating consistent engineering growth over time.
+The journal helps reinforce my understanding while documenting consistent engineering growth.
 
----
+🌍 Long-Term Goal
 
-# 🌍 Long-Term Vision
+By the end of this journey, I aim to be capable of building software for:
 
-I aspire to contribute to the development of intelligent robotic systems in areas such as:
+Autonomous Mobile Robots
+Warehouse Robots
+Industrial Robotics
+Service Robotics
+Computer Vision Systems
+AI-powered Robotic Applications
+📬 Connect With Me
 
-* Warehouse Automation
-* Industrial Robotics
-* Autonomous Mobile Robots (AMRs)
-* Humanoid Robotics
-* AI-powered Robotic Manipulation
-* Service Robotics
+Obafemi Ayo-Soremi
 
-Ultimately, I aim to design software that enables robots to interact intelligently with the real world.
+GitHub:
+https://github.com/Migro-oea
 
----
+LinkedIn:
+https://www.linkedin.com/in/obafemiayosoremi
 
-# 📬 Connect With Me
-
-**Obafemi E. Ayo-Soremi**
-
-* GitHub: https://github.com/Migro-oea
-* LinkedIn: https://linkedin.com/in/obafemiayosoremi
-
----
-
-> **"Every expert was once a beginner. This repository is my commitment to becoming a world-class Robotics Software Engineer through consistent learning, disciplined engineering, and continuous improvement."**
+"Every expert was once a beginner. This repository documents my journey from learning robotics to engineering intelligent robotic systems."
