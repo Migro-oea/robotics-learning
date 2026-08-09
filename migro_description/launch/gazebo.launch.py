@@ -11,14 +11,36 @@ import os
 
 def generate_launch_description():
 
+    # =========================================================
+    # Package directories
+    # =========================================================
+
     pkg_gazebo = get_package_share_directory("ros_gz_sim")
     pkg_migro = get_package_share_directory("migro_description")
+
+    # =========================================================
+    # MIGRO URDF
+    # =========================================================
 
     robot_description = os.path.join(
         pkg_migro,
         "urdf",
         "migro.urdf.xacro"
     )
+
+    # =========================================================
+    # MIGRO World
+    # =========================================================
+
+    world = os.path.join(
+        pkg_migro,
+        "worlds",
+        "migro.world.sdf"
+    )
+
+    # =========================================================
+    # Start Gazebo with MIGRO world
+    # =========================================================
 
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -27,27 +49,46 @@ def generate_launch_description():
                 "launch",
                 "gz_sim.launch.py"
             )
-        )
+        ),
+        launch_arguments={
+            "gz_args": f"-r {world}"
+        }.items()
     )
+
+    # =========================================================
+    # Robot State Publisher
+    # =========================================================
 
     robot_state_publisher = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        parameters=[{
-            "robot_description":
-            os.popen(f"xacro {robot_description}").read()
-        }]
+        parameters=[
+            {
+                "robot_description": os.popen(
+                    f"xacro {robot_description}"
+                ).read()
+            }
+        ]
     )
+
+    # =========================================================
+    # Spawn MIGRO
+    # =========================================================
 
     spawn_robot = Node(
         package="ros_gz_sim",
         executable="create",
         arguments=[
             "-name", "migro",
-            "-topic", "robot_description"
+            "-topic", "robot_description",
+            "-z", "0.5"
         ],
         output="screen"
     )
+
+    # =========================================================
+    # Launch everything
+    # =========================================================
 
     return LaunchDescription([
         gazebo,

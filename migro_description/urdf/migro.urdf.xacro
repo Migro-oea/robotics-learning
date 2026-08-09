@@ -10,6 +10,33 @@
   <xacro:include filename="materials.xacro"/>
   <xacro:include filename="chassis.xacro"/>
   <xacro:include filename="camera.xacro"/>
-  <xacro:include filename="macros.xacro"/>  <!-- ========================================================= -->  <!-- Wheels -->  <!-- ========================================================= -->  <xacro:wheel      name="left_front_wheel"      x="${wheel_x}"      y="${wheel_y}"      z="${wheel_z}"/>  <xacro:wheel      name="right_front_wheel"      x="${wheel_x}"      y="${-wheel_y}"      z="${wheel_z}"/>  <xacro:wheel      name="left_rear_wheel"      x="${-wheel_x}"      y="${wheel_y}"      z="${wheel_z}"/>  <xacro:wheel      name="right_rear_wheel"      x="${-wheel_x}"      y="${-wheel_y}"      z="${wheel_z}"/>
+  <xacro:include filename="macros.xacro"/> 
+  <xacro:include filename="ros2_control.xacro"/>
 
+   <!-- =================== -->  <!-- Wheels -->  <!-- ========================== --> 
+   
+   <xacro:wheel
+    name="left_front_wheel"
+    x="${wheel_x}"
+    y="${wheel_y}"
+    z="${wheel_z}"/>
+
+<xacro:wheel
+    name="right_front_wheel"
+    x="${wheel_x}"
+    y="${-wheel_y}"
+    z="${wheel_z}"/>
+
+<xacro:wheel
+    name="left_rear_wheel"
+    x="${-wheel_x}"
+    y="${wheel_y}"
+    z="${wheel_z}"/>
+
+<xacro:wheel
+    name="right_rear_wheel"
+    x="${-wheel_x}"
+    y="${-wheel_y}"
+    z="${wheel_z}"/>
+    
 </robot>
