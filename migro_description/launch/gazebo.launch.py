@@ -1,9 +1,7 @@
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-
 from launch_ros.actions import Node
-
 from ament_index_python.packages import get_package_share_directory
 
 import os
@@ -19,7 +17,7 @@ def generate_launch_description():
     pkg_migro = get_package_share_directory("migro_description")
 
     # =========================================================
-    # MIGRO URDF
+    # MIGRO files
     # =========================================================
 
     robot_description = os.path.join(
@@ -28,10 +26,6 @@ def generate_launch_description():
         "migro.urdf.xacro"
     )
 
-    # =========================================================
-    # MIGRO World
-    # =========================================================
-
     world = os.path.join(
         pkg_migro,
         "worlds",
@@ -39,7 +33,15 @@ def generate_launch_description():
     )
 
     # =========================================================
-    # Start Gazebo with MIGRO world
+    # Generate robot description from Xacro
+    # =========================================================
+
+    robot_description_content = os.popen(
+        f"xacro {robot_description}"
+    ).read()
+
+    # =========================================================
+    # Start Gazebo
     # =========================================================
 
     gazebo = IncludeLaunchDescription(
@@ -64,26 +66,93 @@ def generate_launch_description():
         executable="robot_state_publisher",
         parameters=[
             {
-                "robot_description": os.popen(
-                    f"xacro {robot_description}"
-                ).read()
+                "robot_description": robot_description_content,
+                "use_sim_time": True,
             }
-        ]
+        ],
+        output="screen",
     )
 
     # =========================================================
-    # Spawn MIGRO
+    # Gazebo -> ROS 2 clock bridge
+    # =========================================================
+
+    clock_bridge = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        arguments=[
+            "/world/migro_world/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"
+        ],
+        remappings=[
+            (
+                "/world/migro_world/clock",
+                "/clock"
+            )
+        ],
+        output="screen",
+    )
+
+    # =========================================================
+    # Spawn MIGRO into Gazebo
     # =========================================================
 
     spawn_robot = Node(
         package="ros_gz_sim",
         executable="create",
         arguments=[
-            "-name", "migro",
-            "-topic", "robot_description",
-            "-z", "0.5"
+            "-name",
+            "migro",
+            "-topic",
+            "robot_description",
+            "-z",
+            "0.5",
         ],
-        output="screen"
+        output="screen",
+    )
+
+    # =========================================================
+    # Joint State Broadcaster
+    # =========================================================
+
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "joint_state_broadcaster",
+            "--controller-manager",
+            "/controller_manager",
+        ],
+        output="screen",
+    )
+
+    # =========================================================
+    # Differential Drive Controller
+    # =========================================================
+
+    diff_drive_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "diff_drive_controller",
+            "--controller-manager",
+            "/controller_manager",
+        ],
+        output="screen",
+    )
+
+    # =========================================================
+    # Delay controller spawning
+    #
+    # Gazebo needs time to start gz_ros2_control and create
+    # controller_manager before the spawners connect.
+    # =========================================================
+
+    controllers = TimerAction(
+        period=5.0,
+        actions=[
+            joint_state_broadcaster_spawner,
+            diff_drive_controller_spawner,
+        ],
     )
 
     # =========================================================
@@ -92,6 +161,8 @@ def generate_launch_description():
 
     return LaunchDescription([
         gazebo,
+        clock_bridge,
         robot_state_publisher,
-        spawn_robot
+        spawn_robot,
+        controllers,
     ])
