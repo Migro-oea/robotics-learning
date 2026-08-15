@@ -3,6 +3,8 @@
 import sys
 import termios
 import tty
+import select
+import time
 
 import rclpy
 from rclpy.node import Node
@@ -23,12 +25,29 @@ class KeyboardTeleop(Node):
         self.linear_speed = 0.2
         self.angular_speed = 0.8
 
+        self.linear_x = 0.0
+        self.angular_z = 0.0
+
+        self.last_key_time = time.monotonic()
+        self.key_timeout = 0.3
+
+        self.timer = self.create_timer(
+            0.05,
+            self.publish_velocity
+        )
+
         self.get_logger().info('MIGRO Keyboard Teleop Started')
-        self.get_logger().info('↑ = forward | ↓ = backward')
-        self.get_logger().info('← = left | → = right')
+        self.get_logger().info('Use W/S/A/D for movement')
         self.get_logger().info('SPACE = stop | Q = quit')
 
-    def publish_velocity(self, linear_x=0.0, angular_z=0.0):
+    def publish_velocity(self):
+
+        if time.monotonic() - self.last_key_time > self.key_timeout:
+            linear_x = 0.0
+            angular_z = 0.0
+        else:
+            linear_x = self.linear_x
+            angular_z = self.angular_z
 
         msg = TwistStamped()
 
@@ -39,23 +58,17 @@ class KeyboardTeleop(Node):
 
         self.publisher.publish(msg)
 
+    def set_velocity(self, linear_x, angular_z):
 
-def get_key(settings):
+        self.linear_x = linear_x
+        self.angular_z = angular_z
+        self.last_key_time = time.monotonic()
 
-    tty.setraw(sys.stdin.fileno())
+    def stop(self):
 
-    key = sys.stdin.read(1)
-
-    if key == '\x1b':
-        key += sys.stdin.read(2)
-
-    termios.tcsetattr(
-        sys.stdin,
-        termios.TCSADRAIN,
-        settings
-    )
-
-    return key
+        self.linear_x = 0.0
+        self.angular_z = 0.0
+        self.last_key_time = time.monotonic()
 
 
 def main(args=None):
@@ -64,58 +77,83 @@ def main(args=None):
 
     node = KeyboardTeleop()
 
-    settings = termios.tcgetattr(sys.stdin)
+    old_settings = termios.tcgetattr(sys.stdin)
 
     try:
 
+        tty.setcbreak(sys.stdin.fileno())
+
         while rclpy.ok():
 
-            key = get_key(settings)
+            # Check keyboard without blocking ROS.
+            ready, _, _ = select.select(
+                [sys.stdin],
+                [],
+                [],
+                0.05
+            )
 
-            if key == '\x1b[A':
-                node.publish_velocity(
-                    linear_x=node.linear_speed,
-                    angular_z=0.0
-                )
+            if ready:
 
-            elif key == '\x1b[B':
-                node.publish_velocity(
-                    linear_x=-node.linear_speed,
-                    angular_z=0.0
-                )
+                key = sys.stdin.read(1).lower()
 
-            elif key == '\x1b[D':
-                node.publish_velocity(
-                    linear_x=0.0,
-                    angular_z=node.angular_speed
-                )
+                if key == 'w':
 
-            elif key == '\x1b[C':
-                node.publish_velocity(
-                    linear_x=0.0,
-                    angular_z=-node.angular_speed
-                )
+                    node.set_velocity(
+                        node.linear_speed,
+                        0.0
+                    )
 
-            elif key == ' ':
-                node.publish_velocity()
+                elif key == 's':
 
-            elif key.lower() == 'q':
-                node.publish_velocity()
-                break
+                    node.set_velocity(
+                        -node.linear_speed,
+                        0.0
+                    )
 
-            rclpy.spin_once(node, timeout_sec=0.0)
+                elif key == 'a':
+
+                    node.set_velocity(
+                        0.0,
+                        node.angular_speed
+                    )
+
+                elif key == 'd':
+
+                    node.set_velocity(
+                        0.0,
+                        -node.angular_speed
+                    )
+
+                elif key == ' ':
+
+                    node.stop()
+
+                elif key == 'q':
+
+                    node.stop()
+                    break
+
+            rclpy.spin_once(
+                node,
+                timeout_sec=0.0
+            )
 
     except KeyboardInterrupt:
         pass
 
     finally:
 
-        node.publish_velocity()
+        node.stop()
+
+        # Publish stop commands before shutting down.
+        for _ in range(3):
+            node.publish_velocity()
 
         termios.tcsetattr(
             sys.stdin,
             termios.TCSADRAIN,
-            settings
+            old_settings
         )
 
         node.destroy_node()
@@ -124,3 +162,4 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
+    

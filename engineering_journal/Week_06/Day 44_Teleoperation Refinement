@@ -1,0 +1,48 @@
+# Day 44 – Teleoperation Refinement
+
+**Date:** 10 August 2026
+
+---
+
+## Objective
+
+Improve MIGRO's keyboard teleoperation system by introducing continuous velocity publishing and a safety timeout.
+
+---
+
+## Work Completed
+
+### 1. Reviewed the Existing Teleoperation System
+
+The Day 43 implementation successfully established manual keyboard control using ROS 2 and `TwistStamped`.
+
+Today's objective was to make the system safer and more representative of a real robot teleoperation interface.
+
+### 2. Implemented Continuous Velocity Publishing
+
+The teleoperation node was modified to maintain the desired velocity and publish commands continuously using a ROS 2 timer.
+
+The node now publishes velocity commands at a regular interval instead of relying on a single command being sent for each keypress.
+
+### 3. Implemented Keyboard Timeout Safety
+
+A keyboard input timeout was introduced.
+
+If no keyboard input is received for a defined period, the node automatically publishes zero velocity.
+
+This provides a basic fail-safe mechanism:
+
+```text
+Operator input
+      ↓
+Velocity command
+      ↓
+MIGRO moves
+
+Input stops
+      ↓
+Timeout
+      ↓
+Zero velocity
+      ↓
+MIGRO stops
