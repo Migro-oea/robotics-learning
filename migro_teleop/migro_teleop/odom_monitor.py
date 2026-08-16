@@ -22,6 +22,10 @@ class OdomMonitor(Node):
 
         self.last_log_time = self.get_clock().now()
 
+        # Starting position.
+        self.start_x = None
+        self.start_y = None
+
         self.get_logger().info(
             'MIGRO Odometry Monitor Started'
         )
@@ -45,6 +49,19 @@ class OdomMonitor(Node):
         linear_velocity = msg.twist.twist.linear.x
         angular_velocity = msg.twist.twist.angular.z
 
+        # Store the first received position as the starting point.
+        if self.start_x is None:
+            self.start_x = x
+            self.start_y = y
+
+        # Calculate displacement from starting position.
+        dx = x - self.start_x
+        dy = y - self.start_y
+
+        distance_from_start = math.sqrt(
+            dx ** 2 + dy ** 2
+        )
+
         # Convert quaternion orientation to yaw.
         yaw = math.atan2(
             2.0 * qw * qz,
@@ -57,6 +74,7 @@ class OdomMonitor(Node):
             f'Position: '
             f'x={x:.2f} m, '
             f'y={y:.2f} m | '
+            f'Distance from start={distance_from_start:.2f} m | '
             f'Yaw={yaw_degrees:.1f} deg | '
             f'Linear={linear_velocity:.2f} m/s | '
             f'Angular={angular_velocity:.2f} rad/s'
