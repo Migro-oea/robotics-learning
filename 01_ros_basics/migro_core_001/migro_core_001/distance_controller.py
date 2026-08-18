@@ -20,15 +20,27 @@ class DistanceController(Node):
         # =====================================================
 
         self.declare_parameter('target_distance', 1.0)
-        self.declare_parameter('linear_speed', 0.2)
+        self.declare_parameter('kp', 0.8)
+        self.declare_parameter('max_speed', 0.2)
+        self.declare_parameter('min_speed', 0.03)
 
         self.target_distance = (
             self.get_parameter('target_distance')
             .value
         )
 
-        self.linear_speed = (
-            self.get_parameter('linear_speed')
+        self.kp = (
+            self.get_parameter('kp')
+            .value
+        )
+
+        self.max_speed = (
+            self.get_parameter('max_speed')
+            .value
+        )
+
+        self.min_speed = (
+            self.get_parameter('min_speed')
             .value
         )
 
@@ -100,6 +112,8 @@ class DistanceController(Node):
             dx ** 2 + dy ** 2
         )
 
+        error = self.target_distance - distance 
+
         # -----------------------------------------------------
         # Check target
         # -----------------------------------------------------
@@ -125,19 +139,26 @@ class DistanceController(Node):
 
         if not self.finished:
 
-            self.move_forward(distance)
+            self.move_forward(distance, error)
 
     # =========================================================
     # Move robot
     # =========================================================
 
-    def move_forward(self, distance):
+    def move_forward(self, distance, error):
 
         msg = TwistStamped()
 
         msg.header.stamp = self.get_clock().now().to_msg()
 
-        msg.twist.linear.x = self.linear_speed
+        speed = self.kp * error
+
+        speed = min(speed, self.max_speed)
+
+        if speed < self.min_speed:
+            speed = self.min_speed
+
+        msg.twist.linear.x = speed
         msg.twist.angular.z = 0.0
 
         self.cmd_pub.publish(msg)
@@ -145,7 +166,9 @@ class DistanceController(Node):
         self.get_logger().info(
             f'Moving... '
             f'{distance:.2f} / '
-            f'{self.target_distance:.2f} m'
+            f'{self.target_distance:.2f} m | '
+            f'Error: {error:.2f} m | '
+            f'Speed: {speed:.2f} m/s'
         )
 
     # =========================================================

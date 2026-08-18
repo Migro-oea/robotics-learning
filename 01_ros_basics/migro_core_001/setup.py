@@ -27,6 +27,7 @@ setup(
         'hello_migro = migro_core_001.hello_migro:main',
         'listener = migro_core_001.listener:main',
         'distance_controller = migro_core_001.distance_controller:main',
+        'distance_controller = migro_core_001.distance_controller:main',
         ],
     },
 )
