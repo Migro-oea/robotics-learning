@@ -28,6 +28,7 @@ setup(
         'listener = migro_core_001.listener:main',
         'distance_controller = migro_core_001.distance_controller:main',
         'heading_controller = migro_core_001.heading_controller:main',
+        'goal_controller = migro_core_001.goal_controller:main',
         ],
     },
 )
