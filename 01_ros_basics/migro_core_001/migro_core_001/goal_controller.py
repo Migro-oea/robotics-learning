@@ -247,19 +247,26 @@ class GoalController(Node):
 
 
 def main(args=None):
-
-    rclpy.init(args=args)
-
+    rclpy.init(args=args, signal_handler_options=rclpy.signals.SignalHandlerOptions.NO)
     node = GoalController()
-
     try:
         rclpy.spin(node)
-
     except KeyboardInterrupt:
         pass
-
     finally:
         node.stop_robot()
+
+        # Stop processing odometry so the grace-period spin below
+        # can't re-trigger the state machine and republish motion.
+        node.destroy_subscription(node.odom_sub)
+
+        # Give the executor a brief chance to actually flush the
+        # zero-velocity command out over DDS before the node (and its
+        # publisher) are torn down. publish() only queues the message —
+        # it doesn't guarantee it has been sent.
+        for _ in range(5):
+            rclpy.spin_once(node, timeout_sec=0.05)
+
         node.destroy_node()
         rclpy.shutdown()
 
