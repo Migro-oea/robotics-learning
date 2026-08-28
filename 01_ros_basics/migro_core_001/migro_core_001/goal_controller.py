@@ -19,28 +19,21 @@ class GoalController(Node):
         # Parameters
         # =====================================================
 
-        self.declare_parameter('target_yaw', 90.0)
         self.declare_parameter('kp_angular', 1.0)
         self.declare_parameter('max_angular_speed', 0.5)
         self.declare_parameter('heading_tolerance', 2.0)
 
-        self.declare_parameter('target_distance', 1.0)
         self.declare_parameter('kp_linear', 0.8)
         self.declare_parameter('max_speed', 0.2)
         self.declare_parameter('min_speed', 0.03)
 
-        self.target_yaw = self.get_parameter('target_yaw').value
         self.kp_angular = self.get_parameter('kp_angular').value
         self.max_angular_speed = self.get_parameter('max_angular_speed').value
         self.heading_tolerance = self.get_parameter('heading_tolerance').value
 
-        self.target_distance = self.get_parameter('target_distance').value
         self.kp_linear = self.get_parameter('kp_linear').value
         self.max_speed = self.get_parameter('max_speed').value
         self.min_speed = self.get_parameter('min_speed').value
-
-        # Convert target heading from degrees to radians.
-        self.target_yaw = math.radians(self.target_yaw)
 
         # =====================================================
         # State machine
@@ -50,6 +43,21 @@ class GoalController(Node):
 
         self.start_x = None
         self.start_y = None
+
+        # =====================================================
+        # Waypoints
+        # =====================================================
+
+        self.waypoints = [
+            (2.0, 0.0),
+            (2.0, 2.0),
+            (0.0, 2.0),
+        ]
+        self.waypoint_index = 0
+        self.goal_initialized = False
+
+        self.target_yaw = None
+        self.target_distance = None
 
         # =====================================================
         # Publisher
@@ -74,8 +82,8 @@ class GoalController(Node):
 
         self.get_logger().info(
             f'Goal controller started. '
-            f'Target heading: {math.degrees(self.target_yaw):.1f} deg | '
-            f'Target distance: {self.target_distance:.2f} m'
+            f'{len(self.waypoints)} waypoint(s) queued. '
+            f'Waiting for first odometry message to set initial goal.'
         )
 
     # =========================================================
@@ -90,10 +98,41 @@ class GoalController(Node):
         )
 
     # =========================================================
+    # Compute target_yaw / target_distance for current waypoint
+    # =========================================================
+
+    def set_goal_for_current_waypoint(self, current_x, current_y):
+
+        wx, wy = self.waypoints[self.waypoint_index]
+
+        dx = wx - current_x
+        dy = wy - current_y
+
+        self.target_distance = math.sqrt(dx ** 2 + dy ** 2)
+        self.target_yaw = math.atan2(dy, dx)
+
+        self.start_x = None
+        self.start_y = None
+        self.state = 'ROTATING'
+
+        self.get_logger().info(
+            f'New goal set. Waypoint {self.waypoint_index}: '
+            f'({wx:.2f}, {wy:.2f}) | '
+            f'Target heading: {math.degrees(self.target_yaw):.1f} deg | '
+            f'Target distance: {self.target_distance:.2f} m'
+        )
+
+    # =========================================================
     # Odometry callback — dispatches based on current state
     # =========================================================
 
     def odom_callback(self, msg):
+
+        if not self.goal_initialized:
+            x = msg.pose.pose.position.x
+            y = msg.pose.pose.position.y
+            self.set_goal_for_current_waypoint(x, y)
+            self.goal_initialized = True
 
         if self.state == 'ROTATING':
             self.do_rotating(msg)
@@ -203,11 +242,18 @@ class GoalController(Node):
             self.stop_robot()
 
             self.get_logger().info(
-                f'Distance reached! Distance: {distance:.2f} m. '
-                f'Goal complete.'
+                f'Waypoint {self.waypoint_index} reached! '
+                f'Distance: {distance:.2f} m.'
             )
 
-            self.state = 'DONE'
+            self.waypoint_index += 1
+
+            if self.waypoint_index < len(self.waypoints):
+                self.set_goal_for_current_waypoint(x, y)
+            else:
+                self.get_logger().info('All waypoints complete.')
+                self.state = 'DONE'
+
             return
 
         # -----------------------------------------------------
