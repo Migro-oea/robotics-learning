@@ -160,10 +160,10 @@ The project is progressing through several engineering stages.
 | Collision Geometry              | ✅      |
 | Inertial Properties             | ✅      |
 | Gazebo Simulation               | ✅      |
-| Robot Spawning                  | 🔄     |
-| Differential Drive              | 🔄     |
-| Odometry                        | 🔄     |
-| Closed-Loop Control             | 🔄     |
+| Robot Spawning                  | ✅     |
+| Differential Drive              | ✅     |
+| Odometry                        | ✅     |
+| Closed-Loop Control             | ✅     |
 | TF2                             | ⏳      |
 | Camera Integration              | ⏳      |
 | LiDAR                           | ⏳      |
@@ -213,13 +213,16 @@ Legend:
 
 ### Robot Control
 
-* 🔄 Integrated odometry feedback
-* 🔄 Monitored robot displacement
-* 🔄 Implemented closed-loop distance control
-* 🔄 Developed proportional distance control
+* ✅ Integrated odometry feedback
+* ✅ Monitored robot displacement
+* ✅ Implemented closed-loop distance control
+* ✅ Developed proportional distance control
+* ✅ Combined heading and distance control into a single sequential
+  state machine (ROTATING → MOVING → DONE)
+* ✅ Debugged and resolved a shutdown race condition affecting
+  KeyboardInterrupt handling (rclpy signal handler + DDS publish timing)
 
 These control experiments represent an important transition from simply **describing and simulating a robot** to **developing software that controls its behavior using feedback**.
-
 ---
 
 # 🛣️ Robotics Engineering Roadmap
