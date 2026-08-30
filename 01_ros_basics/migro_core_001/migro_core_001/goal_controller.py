@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 
 import math
+import yaml
+import os
 
 import rclpy
 from rclpy.node import Node
+
+from ament_index_python.packages import get_package_share_directory
 
 from geometry_msgs.msg import TwistStamped
 from nav_msgs.msg import Odometry
@@ -48,10 +52,14 @@ class GoalController(Node):
         # Waypoints
         # =====================================================
 
+        pkg_share = get_package_share_directory('migro_core_001')
+        waypoints_path = os.path.join(pkg_share, 'config', 'waypoints.yaml')
+
+        with open(waypoints_path, 'r') as f:
+            waypoints_data = yaml.safe_load(f)
+
         self.waypoints = [
-            (2.0, 0.0),
-            (2.0, 2.0),
-            (0.0, 2.0),
+            (wp['x'], wp['y']) for wp in waypoints_data['waypoints']
         ]
         self.waypoint_index = 0
         self.goal_initialized = False
