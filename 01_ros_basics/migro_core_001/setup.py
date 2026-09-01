@@ -32,6 +32,7 @@ setup(
         'distance_controller = migro_core_001.distance_controller:main',
         'heading_controller = migro_core_001.heading_controller:main',
         'goal_controller = migro_core_001.goal_controller:main',
+        'navigate_to_waypoint_server = migro_core_001.navigate_to_waypoint_server:main',
         ],
     },
 )
