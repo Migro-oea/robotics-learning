@@ -2,6 +2,7 @@
 
 import math
 import time
+import threading
 
 import rclpy
 from rclpy.node import Node
@@ -48,6 +49,12 @@ class NavigateToWaypointServer(Node):
         # =====================================================
 
         self.current_pose = None
+
+        # Set from main()'s finally block on shutdown. Checked each
+        # iteration of execute_callback's control loop so the worker
+        # thread actually notices Ctrl+C — rclpy.ok() alone doesn't
+        # go False until after destroy_node(), which is too late.
+        self._shutdown_event = threading.Event()
 
         # =====================================================
         # Publisher / Subscriber
@@ -162,7 +169,7 @@ class NavigateToWaypointServer(Node):
         loop_hz = 20.0
         loop_period = 1.0 / loop_hz
 
-        while rclpy.ok():
+        while rclpy.ok() and not self._shutdown_event.is_set():
 
             # ---- Cancel check ----
             if goal_handle.is_cancel_requested:
@@ -252,7 +259,9 @@ class NavigateToWaypointServer(Node):
 
             time.sleep(loop_period)
 
-        # rclpy shut down mid-goal
+        # Loop exited: shutdown was requested (or rclpy died under us).
+        self.stop_robot()
+        goal_handle.abort()
         result_msg.success = False
         result_msg.final_x = self.current_pose.position.x
         result_msg.final_y = self.current_pose.position.y
@@ -260,7 +269,7 @@ class NavigateToWaypointServer(Node):
 
 
 def main(args=None):
-    rclpy.init(args=args)
+    rclpy.init(args=args, signal_handler_options=rclpy.signals.SignalHandlerOptions.NO)
     node = NavigateToWaypointServer()
 
     # MultiThreadedExecutor is required: odom_callback and
@@ -273,7 +282,23 @@ def main(args=None):
     except KeyboardInterrupt:
         pass
     finally:
+        # Tell the worker thread to stop. It's checked once per loop
+        # iteration (loop_hz = 20 -> up to 50ms latency), so give it a
+        # moment to notice and publish its own stop_robot() before we
+        # start tearing the node's publisher down underneath it.
+        node._shutdown_event.set()
+        time.sleep(0.1)
+
         node.stop_robot()
+        # Stop processing odometry so the grace-period spin below
+        # can't re-trigger motion via a late-arriving odom message.
+        node.destroy_subscription(node.odom_sub)
+        # Give the executor a brief chance to actually flush the
+        # zero-velocity command out over DDS before the node (and its
+        # publisher) are torn down. publish() only queues the message —
+        # it doesn't guarantee it has been sent.
+        for _ in range(5):
+            executor.spin_once(timeout_sec=0.05)
         node.destroy_node()
         rclpy.shutdown()
 
