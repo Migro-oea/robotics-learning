@@ -10,6 +10,7 @@
   <xacro:include filename="materials.xacro"/>
   <xacro:include filename="chassis.xacro"/>
   <xacro:include filename="camera.xacro"/>
+  <xacro:include filename="lidar.xacro"/>
   <xacro:include filename="macros.xacro"/> 
   <xacro:include filename="ros2_control.xacro"/>
 
