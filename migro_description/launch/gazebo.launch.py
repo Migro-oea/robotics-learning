@@ -106,6 +106,20 @@ def generate_launch_description():
     )
 
     # =========================================================
+    # Gazebo -> ROS 2 Camera bridge
+    # =========================================================
+
+    camera_bridge = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        arguments=[
+            "/camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image",
+            "/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo"
+        ],
+        output="screen",
+    )
+
+    # =========================================================
     # Spawn MIGRO into Gazebo
     # =========================================================
 
@@ -176,6 +190,7 @@ def generate_launch_description():
         gazebo,
         clock_bridge,
         lidar_bridge,
+        camera_bridge,
         robot_state_publisher,
         spawn_robot,
         controllers,

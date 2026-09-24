@@ -29,6 +29,7 @@ setup(
     'console_scripts': [
         'hello_migro = migro_core_001.hello_migro:main',
         'listener = migro_core_001.listener:main',
+        'camera_viewer = migro_core_001.camera_viewer:main',
         'distance_controller = migro_core_001.distance_controller:main',
         'heading_controller = migro_core_001.heading_controller:main',
         'goal_controller = migro_core_001.goal_controller:main',
