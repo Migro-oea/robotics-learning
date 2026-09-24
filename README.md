@@ -164,9 +164,9 @@ The project is progressing through several engineering stages.
 | Differential Drive              | ✅     |
 | Odometry                        | ✅     |
 | Closed-Loop Control             | ✅     |
-| TF2                             | ⏳      |
-| Camera Integration              | ⏳      |
-| LiDAR                           | ⏳      |
+| TF2                             | ✅      |
+| Camera Integration              | ✅      |
+| LiDAR                           | ✅      |
 | Computer Vision                 | ⏳      |
 | Navigation2                     | ⏳      |
 | MoveIt 2                        | ⏳      |
@@ -208,8 +208,8 @@ Legend:
 
 * ✅ Configured Gazebo simulation
 * ✅ Integrated the robot with Gazebo
-* 🔄 Spawned and tested the robot in simulation
-* 🔄 Developed differential-drive control
+* ✅ Spawned and tested the robot in simulation
+* ✅ Developed differential-drive control
 
 ### Robot Control
 
