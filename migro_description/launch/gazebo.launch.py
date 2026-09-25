@@ -120,6 +120,28 @@ def generate_launch_description():
     )
 
     # =========================================================
+    # Twist -> TwistStamped converter
+    #
+    # diff_drive_controller (Jazzy) only accepts TwistStamped on
+    # its cmd_vel input. This converts plain Twist publishers
+    # (e.g. teleop_twist_keyboard) into TwistStamped so any
+    # future Twist-publishing node works without modification.
+    # =========================================================
+
+    twist_stamper = Node(
+        package="twist_stamper",
+        executable="twist_stamper",
+        remappings=[
+            ("cmd_vel_in", "/cmd_vel"),
+            ("cmd_vel_out", "/diff_drive_controller/cmd_vel"),
+        ],
+        parameters=[
+            {"frame_id": "base_link"}
+        ],
+        output="screen",
+    )
+
+    # =========================================================
     # Spawn MIGRO into Gazebo
     # =========================================================
 
